@@ -1,0 +1,59 @@
+esphome:
+  name: <NAME_OF_NODE>
+  platform: ESP8266
+  board: esp01_1m
+
+wifi:
+  ssid: <YOUR_SSID>
+  password: <YOUR_PASSWORD>
+
+api:
+
+logger:
+
+ota:
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO0
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Sonoff T2 Button1"
+    on_press:
+      - light.toggle: Light1
+  - platform: gpio
+    pin:
+      number: GPIO9
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Sonoff T2 Button 2"
+    on_press:
+      - light.toggle: Light2    
+  - platform: status
+    name: "Sonoff T2 Status"    
+    
+status_led:
+  pin:
+    number: GPIO13
+    inverted: no    
+
+output:
+  # Register the blue LED as a dimmable output ....
+  - platform: esp8266_pwm
+    id: Relay1
+    pin: GPIO12
+  - platform: esp8266_pwm
+    id: Relay2 
+    pin: GPIO5
+    
+light:
+  - platform: binary
+    name: "Touch1"
+    output: Relay1
+    id: Light1
+  - platform: binary
+    name: "Touch2"
+    output: Relay2  
+    id: Light2
+
+    
